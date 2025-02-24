@@ -3,14 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Proxy</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Proxied Site</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+        input {
+            padding: 10px;
+            font-size: 16px;
+            width: 60%;
+        }
+        button {
+            padding: 10px;
+            font-size: 16px;
+            margin-left: 10px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Web Proxy</h1>
-    <input type="text" id="urlInput" placeholder="Enter a URL">
-    <button onclick="startProxy()">Go</button>
 
-    <script src="script.js"></script>
+
+    <h1>Proxied Site Access</h1>
+    <p>Enter a link or search term:</p>
+    <input type="text" id="inputBox" placeholder="Enter a URL or search term" />
+    <button onclick="submitInput()">Go</button>
+
+
+    <script>
+        function submitInput() {
+            const input = document.getElementById('inputBox').value.trim();
+            let targetUrl;
+
+
+            // If input contains "http" or "www", treat it as a URL
+            if (input.startsWith('http://') || input.startsWith('https://')) {
+                targetUrl = input;
+            } else if (input.includes('.') && !input.startsWith('http')) {
+                // If input looks like a domain, add https://
+                targetUrl = 'https://' + input;
+            } else {
+                // If it's a word, send a Google search
+                targetUrl = 'https://www.google.com/search?q=' + encodeURIComponent(input);
+            }
+
+
+            // Redirect to the proxied site
+            window.location.href = '/service/' + encodeURIComponent(targetUrl);
+        }
+    </script>
+
+
 </body>
 </html>
